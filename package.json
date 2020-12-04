@@ -1,0 +1,37 @@
+{
+   "name":"iobroker.rpitest",
+   "version":"1.0.0",
+   "description":"Test Adapter Raspi for ioBroker",
+   "author":{
+      "name":"meinereiner",
+      "email":"meinereiner@dahoam.at"
+   },
+   "homepage":"https://github.com/DMXface/ioBroker.rpitest",
+   "license":"MIT",
+   "keywords":[
+      "ioBroker",
+      "dmxface",
+      "DMXfaceXP",
+      "Media controller",
+      "Smart Home",
+      "home automation"
+   ],
+   "repository":{
+      "type":"git",
+      "url":"https://github.com/DMXface/ioBroker.rpitest"
+   },
+   "dependencies":{
+      "@iobroker/adapter-core":"^1.0.3"
+   },
+   "devDependencies":{
+
+   },
+   "main":"main.js",
+   "scripts":{
+
+   },
+   "bugs":{
+      "url":"https://github.com/DMXface/ioBroker.rpitest/issues"
+   },
+   "readmeFilename":"README.md"
+}

@@ -1,0 +1,72 @@
+{
+   "common":{
+      "name":"rpitest",
+      "version":"1.0.0",
+      "news":{
+         "1.0.0":{
+            "en":"ioBroker adapter for rpitest",
+            "de":"ioBroker Adapter für rpitest"
+         }
+      },
+      "title":"rpitest",
+      "titleLang":{
+         "en":"rpitest ioBroker adapter",
+         "de":"rpitest ioBroker Adapter"
+      },
+      "desc":{
+         "en":"Connects DMXfaceXP by ACTIVE SEND protocoll",
+         "de":"Verbindet das DMXfaceXP über das ACTICE SEND Protokoll"
+      },
+      "authors":[
+         "Meinereiner <meinereiner@dahoam.at>"
+      ],
+      "keywords":[
+         "ioBroker",
+         "dmxface",
+         "DMXfaceXP",
+         "Media controller",
+         "Smart Home",
+         "home automation"
+      ],
+      "license":"MIT",
+      "platform":"Javascript/Node.js",
+      "main":"main.js",
+      "icon":"dmxface.png",
+      "enabled":true,
+      "extIcon":"https://raw.githubusercontent.com/DMXface/ioBroker.rpitest/master/admin/dmxface.png",
+      "readme":"https://github.com/DMXface/ioBroker.rpitest/blob/master/README.md",
+      "loglevel":"info",
+      "mode":"daemon",
+      "type":"general",
+      "compact":true,
+      "materialize":true,
+      "materializeTab":true,
+      "adminTab":{
+         "singleton":true,
+         "name":{
+            "en":"rpitest",
+            "de":"rpitest"
+         },
+         "link":"www.dmxface.at",
+         "fa-icon":"info"
+      },
+      "supportCustoms":true,
+      "dependencies":[
+         {
+            "js-controller":">=1.4.2"
+         }
+      ]
+   },
+   "native":{
+      "ipaddress":"192.168.1.23",
+      "port":"4242",
+      "requesttiming":"1000",
+      "lastdmxchannel":"0"
+   },
+   "objects":[
+
+   ],
+   "instanceObjects":[
+
+   ]
+}
