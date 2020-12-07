@@ -4,7 +4,7 @@
 //Update to the last version of the ACTIVE SEND Protokoll 5.16
 //Implements Power measurement with IN, OUT, BUS and DMX Ports
 //Implements min max tracking of addition reads
-//TEST
+//TEST TEST
 //REV 1.0.2 First release
 const adaptername = "rpitest"
 
