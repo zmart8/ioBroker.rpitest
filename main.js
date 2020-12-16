@@ -9,19 +9,26 @@ var adapter  = utils.Adapter (adaptername);
 var zerorpc = require("zerorpc");
 var client = new zerorpc.Client();
 //client.connect("tcp://192.168.1.23:4242");
+//client.invoke("KLVL", function(error, res, more) 
+//{
+//  console.log(res);
+//});
 
 
-var LOG_ALL = false;						//Flag to activate full logging
+
+var LOG_ALL = true;						//Flag to activate full logging
 
 //RPC CONNECTION values
 var IPADR  = "0.0.0.0";						//DMXface IP address
 var PORT = 0;								//DMXface port of TCP server ACIVE SEND socket (Configured @ DMXface Setup)
 var TIMING = 1000;							//Request timing for addtional added ports and analog input
-var TEST = 0;
+//var TEST = 0;
 
 
 //*************************************  ADAPTER STARTS with ioBroker *******************************************
 adapter.on ('ready',function (){
+   
+   console.log("Hansi");
    
    IPADR = adapter.config.ipaddress;
    PORT = adapter.config.port;
@@ -31,6 +38,7 @@ adapter.on ('ready',function (){
    if (TIMING > 3600000) {TIMING = 3600000;}
 
    client.connect("tcp://" + IPADR + ":" + PORT);
+  // client.connect("tcp://192.168.1.23:4242");
 
 
    TEST = setInterval(CYCLIC, TIMING);
@@ -61,20 +69,22 @@ adapter.on ('ready',function (){
       common:{name:'Output1',type:'number',role:'common',read:true,write:true},
       native:{}
    });
-   
-/*
-   adapter.setObjectNotExists ('TEST_String',{
+   adapter.setObjectNotExists ('Setpoint_On',{
       type:'state',
-      common:{name:'INPUT2',type:'string',role:'common',read:true,write:true},
+      common:{name:'Setpoint_On',type:'number',role:'common',read:true,write:true},
+      native:{}
+   });
+   adapter.setObjectNotExists ('Setpoint_Off',{
+      type:'state',
+      common:{name:'Setpoint_Off',type:'number',role:'common',read:true,write:true},
+      native:{}
+   });
+   adapter.setObjectNotExists ('GetStatusOut1',{
+      type:'state',
+      common:{name:'GetStatusOut1',type:'boolean',role:'common',read:true,write:true},
       native:{}
    });
 
-   adapter.setObjectNotExists ('TEST_Bool',{
-      type:'state',
-      common:{name:'INPUT3',type:'boolean',role:'common',read:true,write:true},
-      native:{}
-   });
-*/
 
    adapter.subscribeStates('*');
 
@@ -106,24 +116,24 @@ adapter.on ('stateChange',function (id,obj){
          }
       }
    }
-
    });
 
-
-/*
-   adapter.getState('TEST_Bool', function (err, state) {
-      console.log (state);
-      adapter.log.info(
-            'State ' + adapter.namespace + '.TEST_Num -' + 
-            '  Value: '        + state.val + 
-            ', ack: '          + state.ack + 
-            ', time stamp: '   + state.ts  + 
-            ', last changed: ' + state.lc
-      ); 
-  
-  }); 
-*/
-
+   adapter.getState('Setpoint_On' , function (err, state) {	//get current value
+   if (state !=null) {							//EXIT if state is not initialized yet
+      if (state.val !=null) {					//Exit if value not initialized
+         client.invoke("SetSPOn", state.val)
+         }
+      }      
+   });
+   
+   adapter.getState('Setpoint_Off' , function (err, state) {	//get current value
+      if (state !=null) {							//EXIT if state is not initialized yet
+         if (state.val !=null) {					//Exit if value not initialized
+            client.invoke("SetSPOff", state.val)
+            }
+         }      
+      });
+      
 });
 
    
@@ -134,6 +144,7 @@ function CYCLIC () {
    client.invoke("KLVL", function(error, res, more) 
 	{
       adapter.setState('KLVL',res,true);
+      console.log(res);
    });
    client.invoke("KLRL", function(error, res, more) 
 	{
@@ -147,15 +158,15 @@ function CYCLIC () {
 	{
       adapter.setState('WTRL',res,true);
    });
+   client.invoke("GetStatusOut1", function(error, res, more) 
+	{
+      if (res == "AutoOff") {res = false}
+      if (res == "AutoOn") {res = true}
+      if (res == "ManualOff") {res = false}
+      if (res == "ManualOn") {res = true}
+      adapter.setState('GetStatusOut1',res,true);
+   });
 
 
 }
-
-function CONNECT_CLIENT () {
-	IS_ONLINE = false;
-	adapter.log.info("Connecting DMXface controller " + IPADR + " "+ PORT);
-	client.connect (PORT,IPADR);
-}
-
-
 
